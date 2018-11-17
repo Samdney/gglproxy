@@ -1,0 +1,42 @@
+#!/usr/bin/env python2
+#-*- coding: utf-8 -*-
+
+import gglproxy
+
+import gglproxy.argparser as argparser
+import gglproxy.cache as cache
+import gglproxy.translate as translate
+
+# Default values
+lang_from = "en"
+lang_to = "en"
+
+if __name__=="__main__":
+    try:
+        parser = argparser.setArgParser()
+        args = parser.parse_args()
+
+        if not args.url:
+            print("Please set url.")
+        else:
+
+            if args.proxy_version:
+                if args.proxy_version == 'cache':
+                    proxy_url = cache.getCacheProxyUrl(args.url)
+                    print(proxy_url)                    
+                elif args.proxy_version == 'translate':
+                    if args.lang_from:
+                        lang_from = args.lang_from
+                    if args.lang_to:
+                        lang_to = args.lang_to
+
+                    proxy_url = translate.getTranslateProxyUrl(args.url, lang_from, lang_to)                   
+                    print(proxy_url)
+                    
+                else:
+                    print("No valid argument. Choose cache or translate.")
+            else:
+                print("Please set proxy version.")
+   
+    except Exception as error:
+        raise SystemExit(error)
