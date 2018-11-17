@@ -1,3 +1,6 @@
 /mystuff
 *.swp
 *.pyc
+/dist/
+/*.egg-info
+/*.egg
